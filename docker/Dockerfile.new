@@ -1,0 +1,8 @@
+FROM asclinux/linuxforphp-8.2-ultimate:7.2-nts
+RUN composer self-update
+RUN mkdir /srv/tempo && cd /srv/tempo && composer create-project laravel/laravel:~5.4 app
+RUN mv /srv/www /srv/www.OLD && ln -s /srv/tempo/app/public /srv/www
+WORKDIR /srv/tempo/app
+RUN composer install
+
+CMD lfphp --mysql --phpfpm --apache
